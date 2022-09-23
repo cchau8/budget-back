@@ -4,6 +4,7 @@ import {
     showCategory,
     updateCategory,
     deleteCategory,
+    showCategories,
 } from "~/controllers/category.controller";
 import { auth } from "~/middlewares/auth.middleware";
 
@@ -11,7 +12,9 @@ const router: Router = express.Router();
 
 router.post("/category", auth, createCategory);
 
-router.get("/category", auth, showCategory);
+router.get("/categories", auth, showCategories);
+
+router.get("/category/:categoryId", auth, showCategory);
 
 router.put("/category", auth, updateCategory);
 

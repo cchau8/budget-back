@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 import userRoutes from "./routes/user.routes";
+import categoryRoutes from "./routes/category.routes";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ mongoose.connect("mongodb://localhost:27017/budget", {}, () =>
 app.use(cors());
 app.use(express.json());
 app.use(userRoutes);
+app.use(categoryRoutes);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Express + TypeScript Server");

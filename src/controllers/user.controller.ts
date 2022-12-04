@@ -41,18 +41,23 @@ const register = async (req: Request, res: Response) => {
         user.save();
 
         // create token
-        const payload = {
-            user: {
-                username: user.username,
-                email: user.email,
-                userId: user._id,
-            },
-        };
-        const token = jwt.sign(payload, "RANDOM-TOKEN", { expiresIn: "24h" });
+        // const payload = {
+        //     user: {
+        //         username: user.username,
+        //         email: user.email,
+        //         userId: user._id,
+        //     },
+        // };
+        const token = jwt.sign({}, "RANDOM-TOKEN", { expiresIn: "24h" });
 
         return res.status(200).json({
             message: "New user successfully created ! 🔥",
             token,
+            userInfo: {
+                username: user.username,
+                email: user.email,
+                userId: user._id,
+            },
         });
     } catch (error) {
         console.log("Register error :\n", (error as Error).message);
@@ -72,19 +77,24 @@ const login = async (req: Request, res: Response) => {
         // check if password is correct
         const match = await bcrypt.compare(password, user.password);
         if (match) {
-            // create token
-            const payload = {
-                user: {
-                    username: user.username,
-                    email: user.email,
-                    userId: user._id,
-                },
-            };
-            const token = jwt.sign(payload, "RANDOM-TOKEN", { expiresIn: "24h" });
+            // // create token
+            // const payload = {
+            //     user: {
+            //         username: user.username,
+            //         email: user.email,
+            //         userId: user._id,
+            //     },
+            // };
+            const token = jwt.sign({}, "RANDOM-TOKEN", { expiresIn: "24h" });
 
             res.status(200).send({
                 message: "Logged successfully 🔥",
                 token,
+                userInfo: {
+                    username: user.username,
+                    email: user.email,
+                    userId: user._id,
+                },
             });
         }
     } catch (error) {

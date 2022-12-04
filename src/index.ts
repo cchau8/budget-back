@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
+import morgan from "morgan";
 import userRoutes from "./routes/user.routes";
 import categoryRoutes from "./routes/category.routes";
 import transactionRoutes from "./routes/transaction.routes";
@@ -18,10 +19,12 @@ declare global {
 
 const app: Express = express();
 const port = process.env.PORT;
-mongoose.connect("mongodb://localhost:27017/budget", {}, () =>
-    console.log("✔ [server]: connected to db")
-);
+const mongoDB = process.env.MONGODB;
+if (mongoDB) {
+    mongoose.connect(mongoDB, {}, () => console.log("✔ [server]: connected to db"));
+}
 app.use(cors());
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(userRoutes);
 app.use(categoryRoutes);
